@@ -1,13 +1,13 @@
 # Support for Groovy scripts in a distributed Spark cluster
-The SPARK-2171 fix for the (Groovy + Spark) combo in a distributed Spark cluster (see SPARK-15582 discussion).
+The fix to SPARK-2171 for the (Groovy + Spark) combo in a distributed Spark cluster (see SPARK-15582 discussion about scripting support in Spark).
 
 # History
-Researching a way to provide Groovy scripting support to fellow colleagues, we've stumbled upon SPARK-2171 which arguest that there's nothing to do regarding Groovy and Spark, as it's directly compatible to the Spark M/R execution model (through closures that just serialize themselves). The original SPARK-2171 test was done in a local[] VM, which means that the code defined in the closures already existed in the JVM.
+Researching a way to provide Groovy scripting support to fellow colleagues, we've stumbled upon SPARK-2171 which argues that there's nothing to do regarding Groovy and Spark, as it's directly compatible to the Spark M/R execution model. On closer inspection, the original SPARK-2171 test was done in a local[] VM, which means that the code defined in the closures already existed in the JVM. However, running in a distributed cluster, your average Groovy script that tried to to Spark M/R would fail with different ClassNotFoundExceptions (because of the missing closures) or Task Not Serializable (by not extending a SerializableScript base).
 
-# The fix
-In reality, in a distributed Spark cluster, you need to make your code reach the executor nodes. To do that, a few requirements are needed:
-- you need some kind of "Spring In Spark" support (see my forks of the original project). This allows you to use @ Autowired inside the Groovy-defined classes/closures in the scripts. If you don't use Spring, you can skip this step, but the example code below assumes a Spring context;
-- you intercept the script;
+# The fix/work-around
+In reality, in a distributed Spark cluster, you need to make your code reach the executor nodes somehow. To do that, a few requirements are needed:
+- you need some kind of "Spring In Spark" support (see the "spring-spark" fork of the original project, the original project was retired by the original author). This allows you to use @ Autowired inside the Groovy-defined classes/closures in the scripts. If you don't use Spring, you can skip this step, but the example code below assumes a Spring context (note the RequestMapping annotations);
+- you intercept the script before execution;
 - you compile it, save it to a JAR, use Spark's addJar method before launching the script in the driver context;
 - script runs, returns two keys in JSON "output" (from println*, etc.) and "return" (last object in script or specific return stmt); 
 - in case of exception it just returns "exception" (single) with the stacktrace;
