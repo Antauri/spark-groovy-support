@@ -11,7 +11,7 @@ In reality, in a distributed Spark cluster, you need to make your code reach the
 - you compile it, save it to a JAR, use Spark's addJar method;
 - profit!
 
-`
+```
 package net.somewhere.to.your.package;
 
 // Imports
@@ -40,9 +40,9 @@ public abstract class SerializableScript extends Script implements Serializable 
         return String.format ("ScriptOf%d", dateOfNow);
     }
 }
-`
+```
 
-`
+```
 package net.somewhere.to.your.package;
 
 // Imports
@@ -359,4 +359,4 @@ class IntercepterClojure extends Closure<Object> {
         return this.stringBuffer;
     }
 }
-`
+```
