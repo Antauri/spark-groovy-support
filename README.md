@@ -46,65 +46,7 @@ public abstract class SerializableScript extends Script implements Serializable 
 package net.somewhere.to.your.package;
 
 // Imports
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import org.apache.commons.compress.archivers.jar.JarArchiveEntry;
-import org.apache.commons.compress.archivers.jar.JarArchiveOutputStream;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.codehaus.groovy.antlr.parser.GroovyLexer;
-import org.codehaus.groovy.antlr.parser.GroovyTokenTypes;
-import org.codehaus.groovy.control.CompilationFailedException;
-import org.codehaus.groovy.control.CompilationUnit;
-import org.codehaus.groovy.control.CompilerConfiguration;
-import org.codehaus.groovy.control.Phases;
-import org.codehaus.groovy.tools.GroovyClass;
-import org.codehaus.groovy.tools.shell.CommandRegistry;
-import org.codehaus.groovy.tools.shell.Groovysh;
-import org.codehaus.groovy.tools.shell.IO;
-import org.codehaus.groovy.tools.shell.completion.CustomClassSyntaxCompletor;
-import org.codehaus.groovy.tools.shell.completion.FileNameCompleter;
-import org.codehaus.groovy.tools.shell.completion.GroovySyntaxCompletor;
-import org.codehaus.groovy.tools.shell.completion.IdentifierCompletor;
-import org.codehaus.groovy.tools.shell.completion.ImportsSyntaxCompletor;
-import org.codehaus.groovy.tools.shell.completion.KeywordSyntaxCompletor;
-import org.codehaus.groovy.tools.shell.completion.ReflectionCompletor;
-import org.codehaus.groovy.tools.shell.completion.VariableSyntaxCompletor;
-import org.joda.time.DateTime;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.io.Files;
-import groovy.lang.Binding;
-import groovy.lang.Closure;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
-import groovy.ui.SystemOutputInterceptor;
-import groovyjarjarantlr.Token;
-import groovyjarjarantlr.TokenStream;
-import jline.console.completer.Completer;
+// Make sure to resolve all your imports from below;
 
 /**
  * Overriding because the isCommand is a bit problematic
