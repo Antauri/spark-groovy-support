@@ -17,7 +17,7 @@ The method below could (in theory) be extended to any other kind of scripting la
 - Janino;
 - Kotlin;
 - Ceylon;
-- Javascript (see Eclair-JS);
+- Javascript (see Eclair-JS @ https://github.com/EclairJS/eclairjs-node running over Nashorn);
 - Jython;
 
 ```
