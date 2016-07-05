@@ -1,5 +1,5 @@
-# Support for Groovy in a distributed Spark cluster
-The SPARK-2171 fix for the (Groovy + Spark) combo in a distributed Spark cluster (see SPARK-15582).
+# Support for Groovy scripts in a distributed Spark cluster
+The SPARK-2171 fix for the (Groovy + Spark) combo in a distributed Spark cluster (see SPARK-15582 discussion).
 
 # History
 Researching a way to provide Groovy scripting support to fellow colleagues, we've stumbled upon SPARK-2171 which arguest that there's nothing to do regarding Groovy and Spark, as it's directly compatible to the Spark M/R execution model (through closures that just serialize themselves). The original SPARK-2171 test was done in a local[] VM, which means that the code defined in the closures already existed in the JVM.
@@ -10,7 +10,15 @@ In reality, in a distributed Spark cluster, you need to make your code reach the
 - you intercept the script;
 - you compile it, save it to a JAR, use Spark's addJar method before launching the script in the driver context;
 - script runs, returns two keys in JSON "output" (from println*, etc.) and "return" (last object in script or specific return stmt); 
+- in case of exception it just returns "exception" (single) with the stacktrace;
 - profit!
+
+The method below could (in theory) be extended to any other kind of scripting language which can provide a compilation to byte[]-code path. Groovy was (in all honesty) the simplest one to do. We are still researching support for other languages, yet implementations may be possible for:
+- Janino;
+- Kotlin;
+- Ceylon;
+- Javascript (see Eclair-JS);
+- Jython;
 
 ```
 package net.somewhere.to.your.package;
