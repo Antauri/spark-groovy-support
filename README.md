@@ -8,7 +8,8 @@ Researching a way to provide Groovy scripting support to fellow colleagues, we'v
 In reality, in a distributed Spark cluster, you need to make your code reach the executor nodes. To do that, a few requirements are needed:
 - you need some kind of "Spring In Spark" support (see my forks of the original project). This allows you to use @ Autowired inside the Groovy-defined classes/closures in the scripts. If you don't use Spring, you can skip this step, but the example code below assumes a Spring context;
 - you intercept the script;
-- you compile it, save it to a JAR, use Spark's addJar method;
+- you compile it, save it to a JAR, use Spark's addJar method before launching the script in the driver context;
+- script runs, returns two keys in JSON "output" (from println*, etc.) and "return" (last object in script or specific return stmt); 
 - profit!
 
 ```
@@ -49,23 +50,6 @@ package net.somewhere.to.your.package;
 // Make sure to resolve all your imports from below;
 
 /**
- * Overriding because the isCommand is a bit problematic
- * in the official implementation;
- */
-class CustomGroovySyntaxCompletor extends GroovySyntaxCompletor {
-
-    public CustomGroovySyntaxCompletor(Groovysh shell, ReflectionCompletor reflectionCompletor, IdentifierCompletor classnameCompletor,
-        List<IdentifierCompletor> identifierCompletors, Completer filenameCompletor) {
-        // Done
-        super (shell, reflectionCompletor, classnameCompletor, identifierCompletors, filenameCompletor);
-    }
-    
-    public static boolean isCommand (final String bufferLine, final CommandRegistry registry) {
-        return false;
-    }
-}
-
-/**
  * Job is used to received a Groovy-language script that
  * is going to be compiled and executed inside of this JVM to
  * which we pass it the Spark service so that any kind of
@@ -86,8 +70,8 @@ public class Groovy implements Serializable {
     @ PostConstruct
     public void initiateConfiguration () {
         // Set the base-script class of any of our executing scripts
-        compilerConfiguration.setScriptBaseClass ("net.gameloft.Cruncher.Spark.Common.SerializableScript");
-        compilerConfiguration.setTargetBytecode ("1.7");
+        compilerConfiguration.setScriptBaseClass ("net.somewhere.to.your.package.SerializableScript");
+        compilerConfiguration.setTargetBytecode (CompilerConfiguration.JDK8);
         compilerConfiguration.setDebug (false);
     }
 
