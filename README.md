@@ -1,5 +1,5 @@
 # Support for Groovy scripts in a distributed Spark cluster
-The fix to SPARK-2171 for the (Groovy + Spark) combo in a distributed Spark cluster (see SPARK-15582 discussion about scripting support in Spark).
+The fix to [SPARK-2171](https://issues.apache.org/jira/browse/SPARK-2171) for the (Groovy + Spark) combo in a distributed Spark cluster (see [SPARK-15582](https://issues.apache.org/jira/browse/SPARK-15582) discussion about scripting support in Spark).
 
 # History
 Researching a way to provide Groovy scripting support to fellow colleagues, we've stumbled upon SPARK-2171 which argues that there's nothing to do regarding Groovy and Spark, as it's directly compatible to the Spark M/R execution model. On closer inspection, the original SPARK-2171 test was done in a local[] VM, which means that the code defined in the closures already existed in the JVM. However, running in a distributed cluster, your average Groovy script that tried to to Spark M/R would fail with different ClassNotFoundExceptions (because of the missing closures) or Task Not Serializable (by not extending a SerializableScript base).
